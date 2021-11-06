@@ -20,28 +20,48 @@ loadSprite('pipe-top-right', 'hj2GK4n.png');
 loadSprite('pipe-bottom-left', 'c1cYSbt.png');
 loadSprite('pipe-bottom-right', 'nqQ79eI.png');
 
+loadSprite('blue-block', 'fVscIbn.png');
+loadSprite('blue-brick', '3e5YRQd.png');
+loadSprite('blue-steel', 'gqVoI2b.png');
+loadSprite('blue-evil-shroom', 'SvV4ueD.png');
+loadSprite('blue-surprise', 'RMqCc1G.png');
+
 scene('game', ({ level, score }) => {
   layers(['bg', 'obj', 'ui'], 'obj');
 
   const MOVE_SPEED = 120;
   const JUMP_FORCE = 360;
-  const BIG_JUMP_FORCE = 550;
+  const BIG_JUMP_FORCE = 500;
   let CURRENT_JUMP_FORCE = JUMP_FORCE;
   const ENEMY_SPEED = 20;
   let isJumping = true;
   const FALL_DEATH = 400;
 
   const maps = [
-    '                                     ',
-    '                                     ',
-    '                                     ',
-    '                                     ',
-    '                                     ',
-    '     %   =*=%=                       ',
-    '                                     ',
-    '                           -+        ',
-    '                  ^   ^    ()        ',
-    '=============================   =====',
+    [
+      '                                     ',
+      '                                     ',
+      '                                     ',
+      '                                     ',
+      '                                     ',
+      '     %   =*=%=                       ',
+      '                                     ',
+      '                           -+        ',
+      '                  ^   ^    ()        ',
+      '=============================   =====',
+    ],
+    [
+      '_                                      _',
+      '_                                      _',
+      '_                                      _',
+      '_                                      _',
+      '_                                      _',
+      '_        @@/@@@              x x       _',
+      '_                          x x x       _',
+      '_                        x x x x  x  -+_',
+      '_             z   z    x x x x x  x  ()_',
+      '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
+    ],
   ];
 
   const levelCfg = {
@@ -58,9 +78,15 @@ scene('game', ({ level, score }) => {
     '+': [sprite('pipe-top-right'), solid(), scale(0.5), 'pipe'],
     '^': [sprite('evil-shroom'), solid(), 'dangerous'],
     '#': [sprite('mushroom'), solid(), 'mushroom', body()],
+    '!': [sprite('blue-block'), solid(), scale(0.5)],
+    _: [sprite('blue-brick'), solid(), scale(0.5)],
+    z: [sprite('blue-evil-shroom'), solid(), scale(0.5), 'dangerous'],
+    '@': [sprite('blue-surprise'), solid(), scale(0.5), 'coin-surprise'],
+    '/': [sprite('blue-surprise'), solid(), scale(0.5), 'mushroom-surprise'],
+    x: [sprite('blue-steel'), solid(), scale(0.5)],
   };
 
-  const gameLevel = addLevel(map, levelCfg);
+  const gameLevel = addLevel(maps[level], levelCfg);
 
   const scoreLabel = add([
     text(score),
@@ -165,7 +191,7 @@ scene('game', ({ level, score }) => {
 
   player.collides('pipe', () => {
     keyPress('down', () => {
-      go('game', { level: (level += 1), score: scoreLabel.value });
+      go('game', { level: (level + 1) % maps.length, score: scoreLabel.value });
     });
   });
 
