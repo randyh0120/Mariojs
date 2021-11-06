@@ -31,7 +31,7 @@ scene('game', ({ level, score }) => {
   let isJumping = true;
   const FALL_DEATH = 400;
 
-  const map = [
+  const maps = [
     '                                     ',
     '                                     ',
     '                                     ',
@@ -54,8 +54,8 @@ scene('game', ({ level, score }) => {
     '}': [sprite('unboxed'), solid()],
     '(': [sprite('pipe-bottom-left'), solid(), scale(0.5)],
     ')': [sprite('pipe-bottom-right'), solid(), scale(0.5)],
-    '-': [sprite('pipe-top-left'), solid(), scale(0.5)],
-    '+': [sprite('pipe-top-right'), solid(), scale(0.5)],
+    '-': [sprite('pipe-top-left'), solid(), scale(0.5), 'pipe'],
+    '+': [sprite('pipe-top-right'), solid(), scale(0.5), 'pipe'],
     '^': [sprite('evil-shroom'), solid(), 'dangerous'],
     '#': [sprite('mushroom'), solid(), 'mushroom', body()],
   };
