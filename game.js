@@ -20,7 +20,7 @@ loadSprite('pipe-top-right', 'hj2GK4n.png');
 loadSprite('pipe-bottom-left', 'c1cYSbt.png');
 loadSprite('pipe-bottom-right', 'nqQ79eI.png');
 
-scene('game', ({ score }) => {
+scene('game', ({ level, score }) => {
   layers(['bg', 'obj', 'ui'], 'obj');
 
   const MOVE_SPEED = 120;
@@ -71,7 +71,7 @@ scene('game', ({ score }) => {
     },
   ]);
 
-  add([text('level ' + 'test', pos(4, 6))]);
+  add([text('level ' + parseInt(level + 1)), pos(90, 6)]);
 
   function big() {
     let timer = 0;
@@ -163,6 +163,12 @@ scene('game', ({ score }) => {
     }
   });
 
+  player.collides('pipe', () => {
+    keyPress('down', () => {
+      go('game', { level: (level += 1), score: scoreLabel.value });
+    });
+  });
+
   keyDown('left', () => {
     player.move(-MOVE_SPEED, 0);
   });
@@ -189,4 +195,4 @@ scene('lose', ({ score }) => {
   add([text(score, 32), origin('center'), pos(width() / 2, height() / 2)]);
 });
 
-start('game', { score: 0 });
+start('game', { level: 0, score: 0 });
