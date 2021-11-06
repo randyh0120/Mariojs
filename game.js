@@ -31,7 +31,7 @@ scene('game', ({ level, score }) => {
 
   const MOVE_SPEED = 120;
   const JUMP_FORCE = 360;
-  const BIG_JUMP_FORCE = 550;
+  const BIG_JUMP_FORCE = 500;
   let CURRENT_JUMP_FORCE = JUMP_FORCE;
   const ENEMY_SPEED = 20;
   let isJumping = true;
@@ -56,7 +56,7 @@ scene('game', ({ level, score }) => {
       '_                                      _',
       '_                                      _',
       '_                                      _',
-      '_        @@@@@@              x x       _',
+      '_        @@/@@@              x x       _',
       '_                          x x x       _',
       '_                        x x x x  x  -+_',
       '_             z   z    x x x x x  x  ()_',
@@ -82,6 +82,7 @@ scene('game', ({ level, score }) => {
     _: [sprite('blue-brick'), solid(), scale(0.5)],
     z: [sprite('blue-evil-shroom'), solid(), scale(0.5), 'dangerous'],
     '@': [sprite('blue-surprise'), solid(), scale(0.5), 'coin-surprise'],
+    '/': [sprite('blue-surprise'), solid(), scale(0.5), 'mushroom-surprise'],
     x: [sprite('blue-steel'), solid(), scale(0.5)],
   };
 
@@ -190,7 +191,7 @@ scene('game', ({ level, score }) => {
 
   player.collides('pipe', () => {
     keyPress('down', () => {
-      go('game', { level: level + 1, score: scoreLabel.value });
+      go('game', { level: (level + 1) % maps.length, score: scoreLabel.value });
     });
   });
 
