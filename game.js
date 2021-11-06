@@ -32,16 +32,30 @@ scene('game', ({ level, score }) => {
   const FALL_DEATH = 400;
 
   const maps = [
-    '                                     ',
-    '                                     ',
-    '                                     ',
-    '                                     ',
-    '                                     ',
-    '     %   =*=%=                       ',
-    '                                     ',
-    '                           -+        ',
-    '                  ^   ^    ()        ',
-    '=============================   =====',
+    [
+      '                                     ',
+      '                                     ',
+      '                                     ',
+      '                                     ',
+      '                                     ',
+      '     %   =*=%=                       ',
+      '                                     ',
+      '                           -+        ',
+      '                  ^   ^    ()        ',
+      '=============================   =====',
+    ],
+    [
+      '                                     ',
+      '                                     ',
+      '                                     ',
+      '                                     ',
+      '                                     ',
+      '     %   =*=%=                       ',
+      '                                     ',
+      '                           -+        ',
+      '                  ^   ^    ()        ',
+      '=============================   =====',
+    ],
   ];
 
   const levelCfg = {
@@ -60,7 +74,7 @@ scene('game', ({ level, score }) => {
     '#': [sprite('mushroom'), solid(), 'mushroom', body()],
   };
 
-  const gameLevel = addLevel(map, levelCfg);
+  const gameLevel = addLevel(maps[level], levelCfg);
 
   const scoreLabel = add([
     text(score),
