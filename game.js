@@ -150,7 +150,7 @@ scene('game', () => {
 
   keyPress('space', () => {
     if (player.grounded()) {
-      player.jump(JUMP_FORCE);
+      player.jump(CURRENT_JUMP_FORCE);
     }
   });
 });
