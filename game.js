@@ -20,13 +20,16 @@ loadSprite('pipe-top-right', 'hj2GK4n.png');
 loadSprite('pipe-bottom-left', 'c1cYSbt.png');
 loadSprite('pipe-bottom-right', 'nqQ79eI.png');
 
-scene('game', () => {
+scene('game', ({ score }) => {
   layers(['bg', 'obj', 'ui'], 'obj');
 
   const MOVE_SPEED = 120;
   const JUMP_FORCE = 360;
   const BIG_JUMP_FORCE = 550;
   let CURRENT_JUMP_FORCE = JUMP_FORCE;
+  const ENEMY_SPEED = 20;
+  let isJumping = true;
+  const FALL_DEATH = 400;
 
   const map = [
     '                                     ',
@@ -53,18 +56,18 @@ scene('game', () => {
     ')': [sprite('pipe-bottom-right'), solid(), scale(0.5)],
     '-': [sprite('pipe-top-left'), solid(), scale(0.5)],
     '+': [sprite('pipe-top-right'), solid(), scale(0.5)],
-    '^': [sprite('evil-shroom'), solid()],
+    '^': [sprite('evil-shroom'), solid(), 'dangerous'],
     '#': [sprite('mushroom'), solid(), 'mushroom', body()],
   };
 
   const gameLevel = addLevel(map, levelCfg);
 
   const scoreLabel = add([
-    text('test'),
+    text(score),
     pos(30, 6),
     layer('ui'),
     {
-      value: 'test',
+      value: score,
     },
   ]);
 
@@ -140,6 +143,26 @@ scene('game', () => {
     scoreLabel.text = scoreLabel.value;
   });
 
+  action('dangerous', (d) => {
+    d.move(-ENEMY_SPEED, 0);
+  });
+
+  player.collides('dangerous', (d) => {
+    if (isJumping) {
+      destroy(d);
+    } else {
+      go('lose', { score: scoreLabel.value });
+    }
+  });
+
+  player.action(() => {
+    camPos(player.pos);
+
+    if (player.pos.y >= FALL_DEATH) {
+      go('lose', { score: scoreLabel.value });
+    }
+  });
+
   keyDown('left', () => {
     player.move(-MOVE_SPEED, 0);
   });
@@ -148,11 +171,22 @@ scene('game', () => {
     player.move(MOVE_SPEED, 0);
   });
 
+  player.action(() => {
+    if (player.grounded()) {
+      isJumping = false;
+    }
+  });
+
   keyPress('space', () => {
     if (player.grounded()) {
+      isJumping = true;
       player.jump(CURRENT_JUMP_FORCE);
     }
   });
 });
 
-start('game');
+scene('lose', ({ score }) => {
+  add([text(score, 32), origin('center'), pos(width() / 2, height() / 2)]);
+});
+
+start('game', { score: 0 });
