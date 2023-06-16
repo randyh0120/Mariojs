@@ -19,6 +19,7 @@ loadSprite('pipe-top-left', 'ReTPiWY.png');
 loadSprite('pipe-top-right', 'hj2GK4n.png');
 loadSprite('pipe-bottom-left', 'c1cYSbt.png');
 loadSprite('pipe-bottom-right', 'nqQ79eI.png');
+loadSprite('stepping-block', 'bdrLpi6.png');
 
 loadSprite('blue-block', 'fVscIbn.png');
 loadSprite('blue-brick', '3e5YRQd.png');
@@ -39,16 +40,20 @@ scene('game', ({ level, score }) => {
 
   const maps = [
     [
-      '                                     ',
-      '                                     ',
-      '                                     ',
-      '                                     ',
-      '                                     ',
-      '     %   =*=%=                       ',
-      '                                     ',
-      '                           -+        ',
-      '                  ^   ^    ()        ',
-      '=============================   =====',
+      '                                                                                                                                                             ',
+      '                                                                                                                                                             ',
+      '                                                                                                                                                             ',
+      '                                                                                 ^  ^                                                                        ',
+      '                      %                                                         1111111111   111%              *           111      1%%1                     ',
+      '                                                                                                                                                             ',
+      '                                                                                                                                                             ',
+      '                                                                                                                                                             ',
+      '                %   1*1%1                                       *            1*1                %     1%    %  %  %     1            11      s  s          ss',
+      '                                              -+         -+                                                                                 ss  ss        sss',
+      '                            -+        -+      ()         ()                                                                                sss  sss      ssss',
+      '                     ^      ()        ()^     ()         ()                                        ^ ^       ^      ^ ^       ^ ^  ^ ^    ssss  ssss    sssss',
+      '=====================================================================   ===============    ==================================================================',
+      '=====================================================================   ===============    ==================================================================',
     ],
     [
       '_                                      _',
@@ -68,6 +73,8 @@ scene('game', ({ level, score }) => {
     width: 20,
     height: 20,
     '=': [sprite('block'), solid()],
+    1: [sprite('brick'), solid()],
+    s: [sprite('stepping-block'), solid()],
     $: [sprite('coin'), 'coin'],
     '%': [sprite('surprise'), solid(), 'coin-surprise'],
     '*': [sprite('surprise'), solid(), 'mushroom-surprise'],
@@ -76,8 +83,8 @@ scene('game', ({ level, score }) => {
     ')': [sprite('pipe-bottom-right'), solid(), scale(0.5)],
     '-': [sprite('pipe-top-left'), solid(), scale(0.5), 'pipe'],
     '+': [sprite('pipe-top-right'), solid(), scale(0.5), 'pipe'],
-    '^': [sprite('evil-shroom'), solid(), 'dangerous'],
-    '#': [sprite('mushroom'), solid(), 'mushroom', body()],
+    '^': [sprite('evil-shroom'), solid(), body(), 'dangerous'],
+    '#': [sprite('mushroom'), solid(), body(), 'mushroom'],
     '!': [sprite('blue-block'), solid(), scale(0.5)],
     _: [sprite('blue-brick'), solid(), scale(0.5)],
     z: [sprite('blue-evil-shroom'), solid(), scale(0.5), 'dangerous'],
